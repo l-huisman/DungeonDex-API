@@ -1,0 +1,27 @@
+# Logs
+logs
+*.log
+
+# Compiled output
+dist
+*.tsbuildinfo
+
+# Dependency directories
+node_modules
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Build files
+build
+out
+
+# VS Code files
+.vscode
+
+# OS files
+.DS_Store
