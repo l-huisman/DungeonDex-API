@@ -1,0 +1,18 @@
+export enum Language {
+    Common = "Common",
+    Dwarvish = "Dwarvish",
+    Elvish = "Elvish",
+    Giant = "Giant",
+    Gnomish = "Gnomish",
+    Goblin = "Goblin",
+    Halfling = "Halfling",
+    Orc = "Orc",
+    Abyssal = "Abyssal",
+    Celestial = "Celestial",
+    Draconic = "Draconic",
+    DeepSpeech = "Deep Speech",
+    Infernal = "Infernal",
+    Primordial = "Primordial",
+    Sylvan = "Sylvan",
+    Undercommon = "Undercommon",
+}
