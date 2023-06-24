@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Jun 23, 2023 at 05:07 PM
+-- Generation Time: Jun 24, 2023 at 11:56 AM
 -- Server version: 10.10.2-MariaDB-1:10.10.2+maria~ubu2204
 -- PHP Version: 8.1.17
 SET
@@ -29,7 +29,6 @@ USE `dungeondex`;
 --
 CREATE TABLE `creatures` (
     `id` int(11) NOT NULL,
-    `index` varchar(255) NOT NULL,
     `name` varchar(255) NOT NULL,
     `description` text NOT NULL,
     `size` enum(
@@ -116,8 +115,7 @@ CREATE TABLE `creatures` (
     `challengeRating` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`challengeRating`)),
     `specialAbilities` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`specialAbilities`)),
     `actions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`actions`)),
-    `legendaryActions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`legendaryActions`)),
-    `url` varchar(255) NOT NULL
+    `legendaryActions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`legendaryActions`))
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 
 --
@@ -126,7 +124,6 @@ CREATE TABLE `creatures` (
 INSERT INTO
     `creatures` (
         `id`,
-        `index`,
         `name`,
         `description`,
         `size`,
@@ -148,13 +145,11 @@ INSERT INTO
         `challengeRating`,
         `specialAbilities`,
         `actions`,
-        `legendaryActions`,
-        `url`
+        `legendaryActions`
     )
 VALUES
     (
         1,
-        'goblin',
         'Goblin',
         'Goblins are small, black-hearted humanoids that lair in despoiled dungeons and other dismal settings. Individually weak, they gather in large numbers to torment other creatures.',
         'Small',
@@ -163,21 +158,20 @@ VALUES
         'Neutral Evil',
         15,
         7,
-        '{"diceCount": 2, "diceSides": 6, "diceBonus": 0}',
-        '{"walk": 30}',
-        '{"strength": 8, "dexterity": 14, "constitution": 10, "intelligence": 10, "wisdom": 8, "charisma": 8}',
-        '{"value": 6, "proficiency": {"index": "stealth", "name": "Stealth"}}',
-        null,
-        null,
-        null,
-        null,
-        '{"type": "darkvision", "value": 60}',
+        '{\"diceCount\": 2, \"diceSides\": 6, \"diceBonus\": 0}',
+        '{\"walk\": 30}',
+        '{\"strength\": 8, \"dexterity\": 14, \"constitution\": 10, \"intelligence\": 10, \"wisdom\": 8, \"charisma\": 8}',
+        '{\"value\": 6, \"proficiency\": {\"index\": \"stealth\", \"name\": \"Stealth\"}}',
+        NULL,
+        NULL,
+        NULL,
+        NULL,
+        '{\"type\": \"darkvision\", \"value\": 60}',
         'Goblin',
-        '{"value": 0.25, "experience": 50}',
-        '{"name": "Nimble Escape", "desc": "The goblin can take the Disengage or Hide action as a bonus action on each of its turns.", "usage": null}',
-        '[{"name": "Scimitar", "description": "Melee Weapon Attack: + 4 to hit, reach 5 ft., one target.Hit: 5 (1d6 + 2) slashing damage.", "attackBonus": 4, "damage": {"damageDice": { "diceCount": 2, "diceSides": 6, "diceBonus": 0 }, "damageType":{"index": "slashing", "name": "Slashing"}}}, {"name": "Shortbow", "description": "Ranged Weapon Attack: + 4 to hit, range 80/320 ft., one target.Hit: 5 (1d6 + 2) piercing damage.", "attackBonus": 4, "damage": {"damageDice": { "diceCount": 1, "diceSides": 6, "diceBonus": 0 }, "damageType":{"index": "piercing", "name": "Piercing"}}}]',
-        null,
-        '/api/v1/creatures/goblin'
+        '{\"value\": 0.25, \"experience\": 50}',
+        '{\"name\": \"Nimble Escape\", \"desc\": \"The goblin can take the Disengage or Hide action as a bonus action on each of its turns.\", \"usage\": null}',
+        '[{\"name\": \"Scimitar\", \"description\": \"Melee Weapon Attack: + 4 to hit, reach 5 ft., one target.Hit: 5 (1d6 + 2) slashing damage.\", \"attackBonus\": 4, \"damage\": {\"damageDice\": { \"diceCount\": 2, \"diceSides\": 6, \"diceBonus\": 0 }, \"damageType\":{\"index\": \"slashing\", \"name\": \"Slashing\"}}}, {\"name\": \"Shortbow\", \"description\": \"Ranged Weapon Attack: + 4 to hit, range 80/320 ft., one target.Hit: 5 (1d6 + 2) piercing damage.\", \"attackBonus\": 4, \"damage\": {\"damageDice\": { \"diceCount\": 1, \"diceSides\": 6, \"diceBonus\": 0 }, \"damageType\":{\"index\": \"piercing\", \"name\": \"Piercing\"}}}]',
+        NULL
     );
 
 --

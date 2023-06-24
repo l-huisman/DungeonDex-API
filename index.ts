@@ -27,7 +27,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 app.use(express.static("public"));
-app.use("/api/v1/Creatures", CreatureRoutes);
+app.use("/api/v1/creatures", CreatureRoutes);
 
 const server = app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);

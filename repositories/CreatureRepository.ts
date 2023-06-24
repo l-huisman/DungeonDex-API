@@ -47,8 +47,31 @@ export default class CreatureRepository extends BaseRepository {
 
   public async create(creature: CreatureRequestDTO): Promise<ICreature> {
     try {
-      const query = "INSERT INTO creatures SET ?";
-      const params = [creature];
+      const query = "INSERT INTO creatures (name, description, size, type, subtype, alignment, armorClass, hitPoints, hitDice, speed, abilityScores, proficiencies, damageVulnerabilities, damageResistances, damageImmunities, conditionImmunities, senses, languages, challengeRating, specialAbilities, actions, legendaryActions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      const params = [
+        creature.name,
+        creature.description,
+        creature.size,
+        creature.type,
+        creature.subtype ?? null,
+        creature.alignment,
+        creature.armorClass,
+        creature.hitPoints,
+        JSON.stringify(creature.hitDice),
+        JSON.stringify(creature.speed),
+        JSON.stringify(creature.abilityScores),
+        JSON.stringify(creature.proficiencies ?? null),
+        JSON.stringify(creature.damageVulnerabilities ?? null),
+        JSON.stringify(creature.damageResistances ?? null),
+        JSON.stringify(creature.damageImmunities ?? null),
+        JSON.stringify(creature.conditionImmunities ?? null),
+        JSON.stringify(creature.senses),
+        creature.language,
+        JSON.stringify(creature.challengeRating),
+        JSON.stringify(creature.specialAbilities),
+        JSON.stringify(creature.actions),
+        JSON.stringify(creature.legendaryActions ?? null)
+      ];
       const result = await this.executeQuery(query, params);
       const newCreature: ICreature = this.mapToCreature(result[0]);
       return newCreature;

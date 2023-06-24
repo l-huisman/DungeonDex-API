@@ -9,15 +9,6 @@ import { CreatureDeletionException } from "../errors/CreatureDeletionException";
 import { CreatureDTOException } from "../errors/CreatureDTOException";
 
 export default class CreatureController {
-
-  private message: string;
-  private statusCode: number;
-
-  constructor() {
-    this.message = "Something went wrong, please try again later or contact administrator.";
-    this.statusCode = 500;
-  }
-
   public async getCreatures(req: Request, res: Response): Promise<void> {
     const creatureService = new CreatureService();
     let creatures: ICreature[];
@@ -30,12 +21,14 @@ export default class CreatureController {
       const response = new APIResponseDTO<ICreature[]>("Success", creatures, undefined);
       res.status(200).json(response);
     } catch (error) {
+      let message: string = "Something went wrong, please try again later or contact administrator.";
+      let statusCode: number = 500;
       if (error instanceof CreatureNotFoundException) {
-        this.message = error.message;
-        this.statusCode = error.statusCode;
+        message = error.message;
+        statusCode = error.statusCode;
       }
-      const response = new APIResponseDTO<any>(this.message, undefined, error);
-      res.status(this.statusCode).json(response);
+      const response = new APIResponseDTO<any>(message, undefined, error);
+      res.status(statusCode).json(response);
     }
   }
 
@@ -46,12 +39,14 @@ export default class CreatureController {
       const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
       res.status(200).json(response);
     } catch (error) {
+      let message: string = "Something went wrong, please try again later or contact administrator.";
+      let statusCode: number = 500;
       if (error instanceof CreatureNotFoundException) {
-        this.message = error.message;
-        this.statusCode = error.statusCode;
+        message = error.message;
+        statusCode = error.statusCode;
       }
-      const response = new APIResponseDTO<any>(this.message, undefined, error);
-      res.status(this.statusCode).json(response);
+      const response = new APIResponseDTO<any>(message, undefined, error);
+      res.status(statusCode).json(response);
     }
   }
 
@@ -62,12 +57,14 @@ export default class CreatureController {
       const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
       res.status(201).json(response);
     } catch (error) {
+      let message: string = "Something went wrong, please try again later or contact administrator.";
+      let statusCode: number = 500;
       if (error instanceof CreatureCreationException || error instanceof CreatureDTOException) {
-        this.message = error.message;
-        this.statusCode = error.statusCode;
+        message = error.message;
+        statusCode = error.statusCode;
       }
-      const response = new APIResponseDTO<any>(this.message, undefined, error);
-      res.status(this.statusCode).json(response);
+      const response = new APIResponseDTO<any>(message, undefined, error);
+      res.status(statusCode).json(response);
     }
   }
 
@@ -78,12 +75,14 @@ export default class CreatureController {
       const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
       res.status(200).json(response);
     } catch (error) {
+      let message: string = "Something went wrong, please try again later or contact administrator.";
+      let statusCode: number = 500;
       if (error instanceof CreatureUpdateException || error instanceof CreatureNotFoundException) {
-        this.message = error.message;
-        this.statusCode = error.statusCode;
+        message = error.message;
+        statusCode = error.statusCode;
       }
-      const response = new APIResponseDTO<any>(this.message, undefined, error);
-      res.status(this.statusCode).json(response);
+      const response = new APIResponseDTO<any>(message, undefined, error);
+      res.status(statusCode).json(response);
     }
   }
 
@@ -94,12 +93,14 @@ export default class CreatureController {
       const response = new APIResponseDTO<ICreature>("Success", undefined, undefined);
       res.status(200).json(response);
     } catch (error) {
+      let message: string = "Something went wrong, please try again later or contact administrator.";
+      let statusCode: number = 500;
       if (error instanceof CreatureDeletionException) {
-        this.message = error.message;
-        this.statusCode = error.statusCode;
+        message = error.message;
+        statusCode = error.statusCode;
       }
-      const response = new APIResponseDTO<any>(this.message, undefined, error);
-      res.status(this.statusCode).json(response);
+      const response = new APIResponseDTO<any>(message, undefined, error);
+      res.status(statusCode).json(response);
     }
   }
 }

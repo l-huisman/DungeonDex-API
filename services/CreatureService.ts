@@ -36,17 +36,6 @@ export default class CreatureService {
   }
 
   private validateCreatureRequestDTO(creature: CreatureRequestDTO): boolean {
-    if (!creature.name || !creature.species) {
-      return false;
-    }
-    for (const key in creature) {
-      if (creature.hasOwnProperty(key)) {
-        const element = creature[key];
-        if (element === undefined && key !== "subtype" && key !== "proficiencies" && key !== "damageVulnerabilities" && key !== "damageResistances" && key !== "damageImmunities" && key !== "conditionImmunities" && key !== "legendaryActions") {
-          return false;
-        }
-      }
-    }
     return true;
   }
 
