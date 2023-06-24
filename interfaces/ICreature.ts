@@ -27,48 +27,17 @@ export interface ICreature {
   hitDice: IDice;
   speed: ICreatureSpeed[];
   abilityScores: IAbilityScore;
-  proficiencies: IProficiency[];
-  damageVulnerabilities: IDamageType[];
-  damageResistances: IDamageType[];
-  damageImmunities: IDamageType[];
-  conditionImmunities: ICondition[];
+  proficiencies?: IProficiency[];
+  damageVulnerabilities?: IDamageType[];
+  damageResistances?: IDamageType[];
+  damageImmunities?: IDamageType[];
+  conditionImmunities?: ICondition[];
   senses: ISense[];
   languages: Language[];
   challengeRating: IChallengeRating;
   specialAbilities: ISpecialAbility[];
   actions: IAttack[];
-  legendaryActions: {}[];
+  legendaryActions?: IAttack[];
   url: string;
-}
-
-export function mapToCreature(data: any): ICreature {
-  return {
-    id: data.id,
-    index: data.index,
-    name: data.name,
-    description: data.description,
-    size: Size[data.size as keyof typeof Size],
-    type: Type[data.type as keyof typeof Type],
-    subtype: data.subtype ? Type[data.subtype as keyof typeof Type] : undefined,
-    alignment: Alignment[data.alignment as keyof typeof Alignment],
-    armorClass: data.armorClass,
-    hitPoints: data.hitPoints,
-    hitDice: data.hitDice,
-    speed: data.speed,
-    abilityScores: data.abilityScores,
-    proficiencies: data.proficiencies,
-    damageVulnerabilities: data.damageVulnerabilities,
-    damageResistances: data.damageResistances,
-    damageImmunities: data.damageImmunities,
-    conditionImmunities: data.conditionImmunities,
-    senses: data.senses,
-    languages: data.languages.map(
-      (language: string) => Language[language as keyof typeof Language]
-    ),
-    challengeRating: data.challengeRating,
-    specialAbilities: data.specialAbilities,
-    actions: data.actions,
-    legendaryActions: data.legendaryActions,
-    url: data.url,
-  };
+  [key: string]: any;
 }

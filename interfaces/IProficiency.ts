@@ -3,6 +3,5 @@ export interface IProficiency {
     proficiency: {
         index: string;
         name: string;
-        url: string;
     };
 }
