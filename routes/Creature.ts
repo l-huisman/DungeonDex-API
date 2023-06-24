@@ -1,5 +1,5 @@
 import express from "express";
-import Controller from "../controllers/Creature";
+import Controller from "../controllers/CreatureController";
 
 const router = express.Router();
 const controller = new Controller();
