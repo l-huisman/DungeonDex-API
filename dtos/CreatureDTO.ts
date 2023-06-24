@@ -25,41 +25,16 @@ export interface CreatureRequestDTO {
   hitDice: IDice;
   speed: ICreatureSpeed[];
   abilityScores: IAbilityScore;
-  proficiencies: IProficiency[];
-  damageVulnerabilities: IDamageType[];
-  damageResistances: IDamageType[];
-  damageImmunities: IDamageType[];
-  conditionImmunities: ICondition[];
+  proficiencies?: IProficiency[];
+  damageVulnerabilities?: IDamageType[];
+  damageResistances?: IDamageType[];
+  damageImmunities?: IDamageType[];
+  conditionImmunities?: ICondition[];
   senses: ISense[];
   languages: Language[];
   challengeRating: IChallengeRating;
   specialAbilities: ISpecialAbility[];
   actions: IAttack[];
-}
-
-export function validateCreatureRequestDTO(
-  creatureRequestDTO: CreatureRequestDTO
-): boolean {
-  return (
-    creatureRequestDTO.name !== undefined &&
-    creatureRequestDTO.description !== undefined &&
-    creatureRequestDTO.size !== undefined &&
-    creatureRequestDTO.type !== undefined &&
-    creatureRequestDTO.alignment !== undefined &&
-    creatureRequestDTO.armorClass !== undefined &&
-    creatureRequestDTO.hitPoints !== undefined &&
-    creatureRequestDTO.hitDice !== undefined &&
-    creatureRequestDTO.speed !== undefined &&
-    creatureRequestDTO.abilityScores !== undefined &&
-    creatureRequestDTO.proficiencies !== undefined &&
-    creatureRequestDTO.damageVulnerabilities !== undefined &&
-    creatureRequestDTO.damageResistances !== undefined &&
-    creatureRequestDTO.damageImmunities !== undefined &&
-    creatureRequestDTO.conditionImmunities !== undefined &&
-    creatureRequestDTO.senses !== undefined &&
-    creatureRequestDTO.languages !== undefined &&
-    creatureRequestDTO.challengeRating !== undefined &&
-    creatureRequestDTO.specialAbilities !== undefined &&
-    creatureRequestDTO.actions !== undefined
-  );
+  legendaryActions?: IAttack[];
+  [key: string]: any;
 }
