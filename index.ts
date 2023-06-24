@@ -6,7 +6,7 @@ import CreatureRoutes from "./routes/Creature";
 dotenv.config();
 
 const app: Express = express();
-const port = process.env.PORT;
+let port: number = parseInt(process.env.PORT as string, 10) || 3000;
 
 app.use(bodyParser.json());
 
@@ -29,6 +29,16 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(express.static("public"));
 app.use("/api/v1/Creatures", CreatureRoutes);
 
-app.listen(port, () => {
+const server = app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
+});
+
+server.on("error", (err) => {
+  if ((err as NodeJS.ErrnoException).code === "EADDRINUSE") {
+    console.log(`Port ${port} is already in use, trying another port...`);
+    port += 10;
+    server.listen(port);
+  } else {
+    console.error(err);
+  }
 });
