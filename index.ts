@@ -1,7 +1,11 @@
 import express, { Express, Request, Response, NextFunction } from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
-import CreatureRoutes from "./routes/Creature";
+import CreatureRoutes from "./routes/CreatureRoutes";
+import AuthRoutes from "./routes/AuthRoutes";
+import UserRoutes from "./routes/UserRoutes";
+import AuthService from "./services/AuthService";
+import { auth } from "./middleware/auth";
 
 dotenv.config();
 
@@ -26,8 +30,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   return null;
 });
 
+const authService = new AuthService();
+
 app.use(express.static("public"));
-app.use("/api/v1/creatures", CreatureRoutes);
+app.use("/api/v1/creatures", auth, CreatureRoutes);
+app.use("/api/v1/auth", AuthRoutes);
+app.use("/api/v1/users", auth, UserRoutes);
+
 
 const server = app.listen(port, () => {
   console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
