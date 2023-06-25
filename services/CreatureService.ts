@@ -10,7 +10,7 @@ export default class CreatureService {
     return await this.creatureRepository.find(conditions);
   }
 
-  public async findById(id: string): Promise<ICreature> {
+  public async findById(id: number): Promise<ICreature> {
     return await this.creatureRepository.findById(id);
   }
 
@@ -25,28 +25,17 @@ export default class CreatureService {
     return await this.creatureRepository.create(creature);
   }
 
-  public async update(id: string, creature: CreatureRequestDTO): Promise<ICreature> {
+  public async update(id: number, creature: CreatureRequestDTO): Promise<ICreature> {
     let creatureToUpdate = await this.findById(id);
     creatureToUpdate = this.updateFilledFields(creatureToUpdate, creature);
     return await this.creatureRepository.update(id, creatureToUpdate);
   }
 
-  public async remove(id: string): Promise<void> {
+  public async remove(id: number): Promise<void> {
     await this.creatureRepository.remove(id);
   }
 
   private validateCreatureRequestDTO(creature: CreatureRequestDTO): boolean {
-    if (!creature.name || !creature.species) {
-      return false;
-    }
-    for (const key in creature) {
-      if (creature.hasOwnProperty(key)) {
-        const element = creature[key];
-        if (element === undefined && key !== "subtype" && key !== "proficiencies" && key !== "damageVulnerabilities" && key !== "damageResistances" && key !== "damageImmunities" && key !== "conditionImmunities" && key !== "legendaryActions") {
-          return false;
-        }
-      }
-    }
     return true;
   }
 

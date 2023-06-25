@@ -31,7 +31,7 @@ export interface CreatureRequestDTO {
   damageImmunities?: IDamageType[];
   conditionImmunities?: ICondition[];
   senses: ISense[];
-  languages: Language[];
+  language: Language;
   challengeRating: IChallengeRating;
   specialAbilities: ISpecialAbility[];
   actions: IAttack[];

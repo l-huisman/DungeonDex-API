@@ -7,7 +7,7 @@ const controller = new Controller();
 router.get("/", controller.getCreatures);
 router.get("/:id", controller.getCreature);
 router.post("/", controller.addCreature);
-router.put("/:", controller.updateCreature);
+router.put("/:id", controller.updateCreature);
 router.delete("/:id", controller.deleteCreature);
 
 export default router;
