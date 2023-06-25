@@ -1,4 +1,4 @@
-import { BaseRepository } from "./Base";
+import { BaseRepository } from "./BaseRepository";
 import { ICreature } from "../interfaces/ICreature";
 import { CreatureCreationException } from "../errors/CreatureCreationException";
 import { CreatureUpdateException } from "../errors/CreatureUpdateException";
@@ -9,7 +9,7 @@ import { CreatureRequestDTO } from "../dtos/CreatureDTO";
 export default class CreatureRepository extends BaseRepository {
   public async find(conditions: any): Promise<ICreature[]> {
     try {
-      const query = "SELECT * FROM creatures WHERE ?";
+      const query = "SELECT * FROM `creatures` WHERE ?";
       const params = [conditions];
       const result = await this.executeQuery(query, params);
       const creatures: ICreature[] = this.mapToModelArray(result);
@@ -19,9 +19,9 @@ export default class CreatureRepository extends BaseRepository {
     }
   }
 
-  public async findById(id: string): Promise<ICreature> {
+  public async findById(id: number): Promise<ICreature> {
     try {
-      const query = "SELECT * FROM creatures WHERE id = ?";
+      const query = "SELECT * FROM `creatures` WHERE id = ?";
       const params = [id];
       const result = await this.executeQuery(query, params);
       const creature: ICreature = this.mapToCreature(result[0]);
@@ -33,11 +33,11 @@ export default class CreatureRepository extends BaseRepository {
 
   public async findAll(): Promise<ICreature[]> {
     try {
-      const query = "SELECT * FROM creatures";
+      const query = "SELECT * FROM `creatures`";
       const result = await this.executeQuery(query);
-      result.forEach(element => {
-        console.log(element);
-      });
+      if (result.length === 0) {
+        throw new CreatureNotFoundException(`Creatures not found`, 404);
+      }
       const creatures: ICreature[] = this.mapToModelArray(result);
       return creatures;
     } catch (error) {
@@ -47,7 +47,7 @@ export default class CreatureRepository extends BaseRepository {
 
   public async create(creature: CreatureRequestDTO): Promise<ICreature> {
     try {
-      const query = "INSERT INTO creatures (name, description, size, type, subtype, alignment, armorClass, hitPoints, hitDice, speed, abilityScores, proficiencies, damageVulnerabilities, damageResistances, damageImmunities, conditionImmunities, senses, languages, challengeRating, specialAbilities, actions, legendaryActions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      const query = "INSERT INTO `creatures` (name, description, size, type, subtype, alignment, armorClass, hitPoints, hitDice, speed, abilityScores, proficiencies, damageVulnerabilities, damageResistances, damageImmunities, conditionImmunities, senses, languages, challengeRating, specialAbilities, actions, legendaryActions) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
       const params = [
         creature.name,
         creature.description,
@@ -73,19 +73,16 @@ export default class CreatureRepository extends BaseRepository {
         JSON.stringify(creature.legendaryActions ?? null)
       ];
       const result = await this.executeQuery(query, params);
-      const newCreature: ICreature = this.mapToCreature(result[0]);
-      return newCreature;
+      const createdCreature = await this.findById(result[0].insertId);
+      return createdCreature;
     } catch (error) {
       throw new CreatureCreationException(`Creature not created`, 500, error as Error);
     }
   }
 
-  public async update(
-    id: string,
-    creature: ICreature
-  ): Promise<ICreature> {
+  public async update(id: number, creature: ICreature): Promise<ICreature> {
     try {
-      const query = "UPDATE creatures SET ? WHERE id = ?";
+      const query = "UPDATE `creatures` SET ? WHERE id = ?";
       const params = [creature, id];
       const result = await this.executeQuery(query, params);
       const updatedCreature: ICreature = this.mapToCreature(result[0]);
@@ -95,11 +92,11 @@ export default class CreatureRepository extends BaseRepository {
     }
   }
 
-  public async remove(id: string): Promise<void> {
+  public async remove(id: number): Promise<void> {
     try {
-      const query = "DELETE FROM creatures WHERE id = ?";
+      const query = "DELETE FROM `creatures` WHERE id = ?";
       const params = [id];
-      const result = await this.executeQuery(query, params);
+      await this.executeQuery(query, params);
     } catch (error) {
       throw new CreatureDeletionException(`Creature not deleted with id: ${id}`, 500, error as Error);
     }
@@ -145,33 +142,3 @@ export default class CreatureRepository extends BaseRepository {
     return creature;
   }
 }
-
-/*
-{
-  id: 1,
-  index: 'goblin',
-  name: 'Goblin',
-  description: 'Goblins are small, black-hearted humanoids that lair in despoiled dungeons and other dismal settings. Individually weak, they gather in large numbers to torment other creatures.',
-  size: 'Small',
-  type: 'Humanoid',
-  subtype: null,
-  alignment: 'Neutral Evil',
-  armorClass: 15,
-  hitPoints: 7,
-  hitDice: '{"diceCount": 2, "diceSides": 6, "diceBonus": 0}',
-  speed: '{"walk": 30}',
-  abilityScores: '{"strength": 8, "dexterity": 14, "constitution": 10, "intelligence": 10, "wisdom": 8, "charisma": 8}',
-  proficiencies: '{"value": 6, "proficiency": {"index": "stealth", "name": "Stealth"}}',
-  damageVulnerabilities: null,
-  damageResistances: null,
-  damageImmunities: null,
-  conditionImmunities: null,
-  senses: '{"type": "darkvision", "value": 60}',
-  languages: 'Goblin',
-  challengeRating: '{"value": 0.25, "experience": 50}',
-  specialAbilities: '{"name": "Nimble Escape", "desc": "The goblin can take the Disengage or Hide action as a bonus action on each of its turns.", "usage": null}',
-  actions: '[{"name": "Scimitar", "description": "Melee Weapon Attack: + 4 to hit, reach 5 ft., one target.Hit: 5 (1d6 + 2) slashing damage.", "attackBonus": 4, "damage": {"damageDice": { "diceCount": 2, "diceSides": 6, "diceBonus": 0 }, "damageType":{"index": "slashing", "name": "Slashing"}}}, {"name": "Shortbow", "description": "Ranged Weapon Attack: + 4 to hit, range 80/320 ft., one target.Hit: 5 (1d6 + 2) piercing damage.", "attackBonus": 4, "damage": {"damageDice": { "diceCount": 1, "diceSides": 6, "diceBonus": 0 }, "damageType":{"index": "piercing", "name": "Piercing"}}}]',
-  legendaryActions: null,
-  url: '/api/v1/creatures/goblin'
-}
-*/

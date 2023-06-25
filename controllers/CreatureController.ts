@@ -35,7 +35,7 @@ export default class CreatureController {
   public async getCreature(req: Request, res: Response): Promise<void> {
     const creatureService = new CreatureService();
     try {
-      const creature = await creatureService.findById(req.params.id);
+      const creature = await creatureService.findById(parseInt(req.params.id));
       const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
       res.status(200).json(response);
     } catch (error) {
@@ -71,7 +71,7 @@ export default class CreatureController {
   public async updateCreature(req: Request, res: Response): Promise<void> {
     const creatureService = new CreatureService();
     try {
-      const creature = await creatureService.update(req.params.id, req.body);
+      const creature = await creatureService.update(parseInt(req.params.id), req.body);
       const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
       res.status(200).json(response);
     } catch (error) {
@@ -89,7 +89,7 @@ export default class CreatureController {
   public async deleteCreature(req: Request, res: Response): Promise<void> {
     const creatureService = new CreatureService();
     try {
-      await creatureService.remove(req.params.id);
+      await creatureService.remove(parseInt(req.params.id));
       const response = new APIResponseDTO<ICreature>("Success", undefined, undefined);
       res.status(200).json(response);
     } catch (error) {

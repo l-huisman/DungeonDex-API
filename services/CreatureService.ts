@@ -10,7 +10,7 @@ export default class CreatureService {
     return await this.creatureRepository.find(conditions);
   }
 
-  public async findById(id: string): Promise<ICreature> {
+  public async findById(id: number): Promise<ICreature> {
     return await this.creatureRepository.findById(id);
   }
 
@@ -25,13 +25,13 @@ export default class CreatureService {
     return await this.creatureRepository.create(creature);
   }
 
-  public async update(id: string, creature: CreatureRequestDTO): Promise<ICreature> {
+  public async update(id: number, creature: CreatureRequestDTO): Promise<ICreature> {
     let creatureToUpdate = await this.findById(id);
     creatureToUpdate = this.updateFilledFields(creatureToUpdate, creature);
     return await this.creatureRepository.update(id, creatureToUpdate);
   }
 
-  public async remove(id: string): Promise<void> {
+  public async remove(id: number): Promise<void> {
     await this.creatureRepository.remove(id);
   }
 
