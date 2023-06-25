@@ -10,6 +10,7 @@ import { CreatureDTOException } from "../errors/CreatureDTOException";
 
 export default class CreatureController {
   public async getCreatures(req: Request, res: Response): Promise<void> {
+    console.log("Requesting creatures..."); 
     const creatureService = new CreatureService();
     let creatures: ICreature[];
     try {
@@ -19,6 +20,7 @@ export default class CreatureController {
         creatures = await creatureService.findAll();
       }
       const response = new APIResponseDTO<ICreature[]>("Success", creatures, undefined);
+      console.log("Creatures retrieved successfully.");
       res.status(200).json(response);
     } catch (error) {
       let message: string = "Something went wrong, please try again later or contact administrator.";
@@ -28,6 +30,7 @@ export default class CreatureController {
         statusCode = error.statusCode;
       }
       const response = new APIResponseDTO<any>(message, undefined, error);
+      console.log("Error retrieving creatures: ", error);
       res.status(statusCode).json(response);
     }
   }
@@ -35,8 +38,10 @@ export default class CreatureController {
   public async getCreature(req: Request, res: Response): Promise<void> {
     const creatureService = new CreatureService();
     try {
-      const creature = await creatureService.findById(parseInt(req.params.id));
+      console.log("Requesting creature with name: ", req.params.name);
+      const creature = await creatureService.findByName(req.params.name);
       const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
+      console.log("Creature retrieved successfully.");
       res.status(200).json(response);
     } catch (error) {
       let message: string = "Something went wrong, please try again later or contact administrator.";
@@ -46,6 +51,7 @@ export default class CreatureController {
         statusCode = error.statusCode;
       }
       const response = new APIResponseDTO<any>(message, undefined, error);
+      console.log("Error retrieving creature: ", error);
       res.status(statusCode).json(response);
     }
   }
@@ -107,8 +113,10 @@ export default class CreatureController {
   public async getRandomCreature(req: Request, res: Response): Promise<void> {
     const creatureService = new CreatureService();
     try {
-      const creature = await creatureService.getRandom();
+      console.log("Requesting random creature...");
+      const creature = await creatureService.getRandomCreature();
       const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
+      console.log("Random creature retrieved successfully.");
       res.status(200).json(response);
     } catch (error) {
       let message: string = "Something went wrong, please try again later or contact administrator.";
@@ -118,6 +126,7 @@ export default class CreatureController {
         statusCode = error.statusCode;
       }
       const response = new APIResponseDTO<any>(message, undefined, error);
+      console.log("Error retrieving random creature: ", error);
       res.status(statusCode).json(response);
     }
   }
