@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Generation Time: Jun 24, 2023 at 11:56 AM
+-- Generation Time: Jun 24, 2023 at 03:38 PM
 -- Server version: 10.10.2-MariaDB-1:10.10.2+maria~ubu2204
 -- PHP Version: 8.1.17
 SET
@@ -174,6 +174,30 @@ VALUES
         NULL
     );
 
+-- --------------------------------------------------------
+--
+-- Table structure for table `users`
+--
+CREATE TABLE `users` (
+    `id` int(11) NOT NULL,
+    `email` varchar(255) NOT NULL,
+    `username` varchar(255) NOT NULL,
+    `password` varchar(255) NOT NULL
+) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+INSERT INTO
+    `users` (`id`, `email`, `username`, `password`)
+VALUES
+    (
+        1,
+        'luke.huisman@yahoo.nl',
+        'Fantasia',
+        '$2b$16$uAW9Z88a1SOQs.WKU9P8YOZnhVhOAIu/NOBon6ZTxMPb0NfnkgAbe'
+    );
+
 --
 -- Indexes for dumped tables
 --
@@ -186,6 +210,14 @@ ADD
     PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `users`
+--
+ALTER TABLE
+    `users`
+ADD
+    PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 --
@@ -193,6 +225,15 @@ ADD
 --
 ALTER TABLE
     `creatures`
+MODIFY
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    AUTO_INCREMENT = 2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE
+    `users`
 MODIFY
     `id` int(11) NOT NULL AUTO_INCREMENT,
     AUTO_INCREMENT = 2;
