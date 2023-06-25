@@ -20,7 +20,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   res.header("Access-Control-Allow-Credentials", true);
   res.header(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, token,"
+    "Origin, X-Requested-With, Content-Type, Accept, token, Authorization"
   );
   if (req.method === "OPTIONS") {
     res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
@@ -33,7 +33,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 const authService = new AuthService();
 
 app.use(express.static("public"));
-app.use("/api/v1/creatures", auth, CreatureRoutes);
+app.use("/api/v1/creatures", CreatureRoutes);
 app.use("/api/v1/auth", AuthRoutes);
 app.use("/api/v1/users", auth, UserRoutes);
 
