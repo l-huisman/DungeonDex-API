@@ -103,4 +103,22 @@ export default class CreatureController {
       res.status(statusCode).json(response);
     }
   }
+
+  public async getRandomCreature(req: Request, res: Response): Promise<void> {
+    const creatureService = new CreatureService();
+    try {
+      const creature = await creatureService.getRandom();
+      const response = new APIResponseDTO<ICreature>("Success", creature, undefined);
+      res.status(200).json(response);
+    } catch (error) {
+      let message: string = "Something went wrong, please try again later or contact administrator.";
+      let statusCode: number = 500;
+      if (error instanceof CreatureNotFoundException) {
+        message = error.message;
+        statusCode = error.statusCode;
+      }
+      const response = new APIResponseDTO<any>(message, undefined, error);
+      res.status(statusCode).json(response);
+    }
+  }
 }

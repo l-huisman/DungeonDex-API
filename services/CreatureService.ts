@@ -53,4 +53,10 @@ export default class CreatureService {
     }
     return creature;
   }
+
+  public async getRandomCreature(): Promise<ICreature> {
+    const creatures = await this.findAll();
+    const randomIndex = Math.floor(Math.random() * creatures.length);
+    return creatures[randomIndex];
+  }
 }

@@ -9,5 +9,6 @@ router.get("/:id", controller.getCreature);
 router.post("/", controller.addCreature);
 router.put("/:id", controller.updateCreature);
 router.delete("/:id", controller.deleteCreature);
+router.get("/random", controller.getRandomCreature);
 
 export default router;
