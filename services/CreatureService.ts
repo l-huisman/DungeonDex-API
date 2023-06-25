@@ -14,6 +14,10 @@ export default class CreatureService {
     return await this.creatureRepository.findById(id);
   }
 
+  public async findByName(name: string): Promise<ICreature> {
+    return await this.creatureRepository.findByName(name);
+  }
+
   public async findAll(): Promise<ICreature[]> {
     return await this.creatureRepository.findAll();
   }
