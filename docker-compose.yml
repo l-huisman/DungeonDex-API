@@ -11,6 +11,7 @@ services:
       MYSQL_PASSWORD: dungeondex
     volumes:
       - ./database:/var/lib/mysql
+      - ./database.sql:/docker-entrypoint-initdb.d/database.sql # mount the database.sql file as a volume
     command: --default-authentication-plugin=mysql_native_password --innodb-use-native-aio=0
     ports:
       - "5430:3306"
