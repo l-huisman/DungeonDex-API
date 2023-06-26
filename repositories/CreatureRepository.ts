@@ -31,6 +31,18 @@ export default class CreatureRepository extends BaseRepository {
     }
   }
 
+  public async findByName(name: string): Promise<ICreature> {
+    try {
+      const query = "SELECT * FROM `creatures` WHERE name = ?";
+      const params = [name];
+      const result = await this.executeQuery(query, params);
+      const creature: ICreature = this.mapToCreature(result[0]);
+      return creature;
+    } catch (error) {
+      throw new CreatureNotFoundException(`Creature not found with name: ${name}`, 404, error as Error);
+    }
+  }
+
   public async findAll(): Promise<ICreature[]> {
     try {
       const query = "SELECT * FROM `creatures`";
